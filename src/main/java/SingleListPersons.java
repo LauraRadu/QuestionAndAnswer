@@ -9,24 +9,25 @@ public class SingleListPersons {
 
     public void addInTheListOfNames(IR s) throws ClassNotFoundException, SQLException {
 
-        Class.forName("org.postgresql.Driver");
+        if (s.getIntrebare().trim().length() > 0 && s.getRaspuns().trim().length() > 0) {
+            Class.forName("org.postgresql.Driver");
 
-        final String URL = "jdbc:postgresql://54.93.65.5:5432/laura7";
-        final String USERNAME = "fasttrackit_dev";
-        final String PASSWORD = "fasttrackit_dev";
+            final String URL = "jdbc:postgresql://54.93.65.5:5432/laura7";
+            final String USERNAME = "fasttrackit_dev";
+            final String PASSWORD = "fasttrackit_dev";
 
-        Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        PreparedStatement pSt = conn.prepareStatement("INSERT INTO ir (intrebare, raspuns) VALUES (?,?)");
-        pSt.setString(1, s.getIntrebare());
-        pSt.setString(2, s.getRaspuns());
+            PreparedStatement pSt = conn.prepareStatement("INSERT INTO ir (intrebare, raspuns) VALUES (?,?)");
+            pSt.setString(1, s.getIntrebare());
+            pSt.setString(2, s.getRaspuns());
 
-        int rowsInserted = pSt.executeUpdate();
+            int rowsInserted = pSt.executeUpdate();
 
-        pSt.close();
-        conn.close();
+            pSt.close();
+            conn.close();
+        }
     }
-
 
     public List getListOfNames() throws ClassNotFoundException, SQLException{
 
