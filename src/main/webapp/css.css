@@ -5,7 +5,7 @@
     font-style: italic;
     font-size: larger;
     padding-left: 30%;
-    padding-top: 60px;
+    padding-top: 40px;
     font-weight: bold;
     line-height: 1.6;
 }
@@ -51,7 +51,7 @@ body {
     margin-left: 0px;
     margin-top: 0px;
     padding-right: 5%;
-    height: 200%;
+    height: 240%;
     background-image:  url("http://www.aktual24.ro/wp-content/uploads/2017/01/iordache2-610x300.png");
     background-size: 100%;
 }

@@ -11,11 +11,13 @@
 
 <body>
 
-<div id="left"></div>
+<div id="left">
+
+</div>
 
 <div>
 <div id="listQA">
-
+    <ol></ol>
 </div>
 
 </br>
@@ -49,14 +51,16 @@
 
     function putQuestionsInHTML(ir) {
         var divQA = document.getElementById('listQA');
+        var ol = document.getElementsByTagName('ol')[0];
         var list = '';
 
         for (var i = 0; i < ir.length; i++) {
             var question = ir[i].intrebare;
             var answer = ir[i].raspuns;
-            list = list + (i+1) + ". " + question + '\n' + answer + "\n" + "\n";
+            var qa = '<li><p>' + question + '<p>' + answer + '</p>' + '</p></li>';
+            list = list + qa;
         }
-        divQA.innerText = list;
+        ol.innerHTML = list;
     }
 
     loadQuestions();
