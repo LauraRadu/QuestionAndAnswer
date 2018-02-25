@@ -1,20 +1,19 @@
+package ir;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import org.json.JSONObject;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @WebServlet("/demoRW")
-public class JSON extends HttpServlet {
+public class QAServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
@@ -31,9 +30,17 @@ public class JSON extends HttpServlet {
         //SingleListPersons listQA = SingleListPersons.getInstance();
         SingleListPersons listQA = new SingleListPersons();
 
+        int iduser = -1;
+
+        HttpSession s = req.getSession();
+        Object o = s.getAttribute("userid");
+        if (o != null) {
+            iduser = (Integer) o;
+        }
+
         JSONObject json = new JSONObject();
         try {
-            json.put("pers", listQA.getListOfNames());
+            json.put("pers", listQA.getListOfNames(iduser));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -48,13 +55,24 @@ public class JSON extends HttpServlet {
         String res = req.getParameter("r");
         IR ir = new IR(que, res);
 
-        SingleListPersons listOfNames = new SingleListPersons();
-        try {
-            listOfNames.addInTheListOfNames(ir);
-        } catch (ClassNotFoundException e) {
+        int fkuser = -1;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        HttpSession s = req.getSession();
+        Object o = s.getAttribute("userid");
+        if (o != null) {
+            fkuser = (Integer) o;
+        }
+
+        if (fkuser != -1) {
+
+            SingleListPersons listOfNames = new SingleListPersons();
+            try {
+                listOfNames.addInTheListOfNames(ir, fkuser);
+            } catch (ClassNotFoundException e) {
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }

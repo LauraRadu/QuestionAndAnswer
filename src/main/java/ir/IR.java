@@ -1,3 +1,4 @@
+package ir;
 
 public class IR {
     private String intrebare;

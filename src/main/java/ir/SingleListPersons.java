@@ -1,3 +1,5 @@
+package ir;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,7 @@ public class SingleListPersons {
 
     private List<IR> listofNames = new ArrayList<>();
 
-    public void addInTheListOfNames(IR s) throws ClassNotFoundException, SQLException {
+    public void addInTheListOfNames(IR s, int fkuser) throws ClassNotFoundException, SQLException {
 
         if (s.getIntrebare().trim().length() > 0 && s.getRaspuns().trim().length() > 0) {
             Class.forName("org.postgresql.Driver");
@@ -18,9 +20,10 @@ public class SingleListPersons {
 
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            PreparedStatement pSt = conn.prepareStatement("INSERT INTO ir (intrebare, raspuns) VALUES (?,?)");
+            PreparedStatement pSt = conn.prepareStatement("INSERT INTO ir (intrebare, raspuns, fkuser) VALUES (?,?, ?)");
             pSt.setString(1, s.getIntrebare());
             pSt.setString(2, s.getRaspuns());
+            pSt.setInt(3, fkuser);
 
             int rowsInserted = pSt.executeUpdate();
 
@@ -29,7 +32,7 @@ public class SingleListPersons {
         }
     }
 
-    public List getListOfNames() throws ClassNotFoundException, SQLException{
+    public List getListOfNames(int iduser) throws ClassNotFoundException, SQLException {
 
         Class.forName("org.postgresql.Driver");
 
@@ -39,9 +42,9 @@ public class SingleListPersons {
 
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        PreparedStatement pSt = conn.prepareStatement("SELECT intrebare, raspuns FROM ir");
+        PreparedStatement pSt = conn.prepareStatement("SELECT intrebare, raspuns FROM ir where fkuser=" + iduser);
         ResultSet rs = pSt.executeQuery();
-        while(rs.next()) {
+        while (rs.next()) {
             IR ir = new IR();
             ir.setIntrebare(rs.getString("intrebare"));
             ir.setRaspuns(rs.getString("raspuns"));
@@ -55,8 +58,3 @@ public class SingleListPersons {
     }
 
 }
-
-
-
-
-
